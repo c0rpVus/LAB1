@@ -2,116 +2,88 @@ package academy.tochkavhoda.introduction;
 
 public class ZeroSteps4 {
 
+    private final ZeroSteps3 util = new ZeroSteps3();
+
     public int min(int[][] matrix) {
         if (matrix == null || matrix.length == 0) return Integer.MAX_VALUE;
-
-        int min = Integer.MAX_VALUE;
+        int m = Integer.MAX_VALUE;
         for (int[] row : matrix) {
-            if (row != null) {
-                for (int num : row) {
-                    if (num < min) min = num;
-                }
-            }
+            if (row == null || row.length == 0) continue;
+            int rowMin = util.min(row);
+            if (rowMin < m) m = rowMin;
         }
-        return min;
+        return m;
     }
 
     public int max(int[][] matrix) {
         if (matrix == null || matrix.length == 0) return Integer.MIN_VALUE;
-
-        int max = Integer.MIN_VALUE;
+        int m = Integer.MIN_VALUE;
         for (int[] row : matrix) {
-            if (row != null) {
-                for (int num : row) {
-                    if (num > max) max = num;
-                }
-            }
+            if (row == null || row.length == 0) continue;
+            int rowMax = util.max(row);
+            if (rowMax > m) m = rowMax;
         }
-        return max;
+        return m;
     }
 
     public boolean find(int[][] matrix, int value) {
         if (matrix == null) return false;
-
         for (int[] row : matrix) {
-            if (row != null) {
-                for (int num : row) {
-                    if (num == value) return true;
-                }
-            }
+            if (row == null) continue;
+            if (util.find(row, value)) return true;
         }
         return false;
     }
 
     public boolean isSortedDescendant(int[][] matrix) {
         if (matrix == null) return true;
-
         for (int[] row : matrix) {
-            if (row != null) {
-                for (int i = 1; i < row.length; i++) {
-                    if (row[i] >= row[i - 1]) return false;
-                }
-            }
+            if (!util.isSortedDescendant(row)) return false;
         }
         return true;
     }
 
     public int hasNoZeroRows(int[][] matrix) {
         if (matrix == null) return 0;
-
         int count = 0;
         for (int[] row : matrix) {
+            boolean hasZero = false;
             if (row != null) {
-                boolean zeroFound = false;
-                for (int num : row) {
-                    if (num == 0) {
-                        zeroFound = true;
-                        break;
-                    }
+                for (int v : row) {
+                    if (v == 0) { hasZero = true; break; }
                 }
-                if (!zeroFound) count++;
             }
+            if (!hasZero) count++;
         }
         return count;
     }
 
     public boolean hasFullZeroRow(int[][] matrix) {
         if (matrix == null) return false;
-
-        for (int i = 0; i < matrix.length; i++) {
-            int[] row = matrix[i];
-            if (row != null) {
-                // Пустая строка не считается строкой из нулей
-                if (row.length == 0) {
-                    continue;
-                }
-
-                boolean allZeros = true;
-                for (int num : row) {
-                    if (num != 0) {
-                        allZeros = false;
-                        break;
-                    }
-                }
-                if (allZeros) {
-                    return true;
-                }
+        for (int[] row : matrix) {
+            if (row == null || row.length == 0) continue;
+            boolean allZero = true;
+            for (int v : row) {
+                if (v != 0) { allZero = false; break; }
             }
+            if (allZero) return true;
         }
         return false;
     }
 
-    public boolean isSymmetric(int[][] matrix) {
+    private boolean isSquare(int[][] matrix) {
         if (matrix == null) return false;
-
         int n = matrix.length;
-
-        // Проверяем квадратность
-        for (int[] ints : matrix) {
-            if (ints == null || ints.length != n) return false;
+        if (n == 0) return false;
+        for (int[] row : matrix) {
+            if (row == null || row.length != n) return false;
         }
+        return true;
+    }
 
-        // Проверяем симметричность (только элементы выше главной диагонали)
+    public boolean isSymmetric(int[][] matrix) {
+        if (!isSquare(matrix)) return false;
+        int n = matrix.length;
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
                 if (matrix[i][j] != matrix[j][i]) return false;
@@ -121,28 +93,18 @@ public class ZeroSteps4 {
     }
 
     public int mainDiagonalMax(int[][] matrix) {
-        if (matrix == null || matrix.length == 0) return Integer.MIN_VALUE;
-
+        if (!isSquare(matrix)) return Integer.MIN_VALUE;
         int n = matrix.length;
-        for (int[] ints : matrix) {
-            if (ints == null || ints.length != n) return Integer.MIN_VALUE;
+        int m = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            if (matrix[i][i] > m) m = matrix[i][i];
         }
-
-        int max = matrix[0][0];
-        for (int i = 1; i < n; i++) {
-            if (matrix[i][i] > max) max = matrix[i][i];
-        }
-        return max;
+        return m;
     }
 
     public int mainDiagonalPositivesSum(int[][] matrix) {
-        if (matrix == null || matrix.length == 0) return 0;
-
+        if (!isSquare(matrix)) return 0;
         int n = matrix.length;
-        for (int[] ints : matrix) {
-            if (ints == null || ints.length != n) return 0;
-        }
-
         int sum = 0;
         for (int i = 0; i < n; i++) {
             if (matrix[i][i] > 0) sum += matrix[i][i];
@@ -151,184 +113,133 @@ public class ZeroSteps4 {
     }
 
     public int secondaryDiagonalMax(int[][] matrix) {
-        if (matrix == null || matrix.length == 0) return Integer.MIN_VALUE;
-
+        if (!isSquare(matrix)) return Integer.MIN_VALUE;
         int n = matrix.length;
+        int m = Integer.MIN_VALUE;
         for (int i = 0; i < n; i++) {
-            if (matrix[i] == null || matrix[i].length != n) return Integer.MIN_VALUE;
+            int val = matrix[i][n - 1 - i];
+            if (val > m) m = val;
         }
-
-        int max = matrix[0][n - 1];
-        for (int i = 1; i < n; i++) {
-            int element = matrix[i][n - 1 - i];
-            if (element > max) max = element;
-        }
-        return max;
+        return m;
     }
 
     public int secondaryDiagonalPositivesSum(int[][] matrix) {
-        if (matrix == null || matrix.length == 0) return 0;
-
+        if (!isSquare(matrix)) return 0;
         int n = matrix.length;
-        for (int i = 0; i < n; i++) {
-            if (matrix[i] == null || matrix[i].length != n) return 0;
-        }
-
         int sum = 0;
         for (int i = 0; i < n; i++) {
-            int element = matrix[i][n - 1 - i];
-            if (element > 0) sum += element;
+            int val = matrix[i][n - 1 - i];
+            if (val > 0) sum += val;
         }
         return sum;
     }
 
     public int[][] matrixSum(int[][] matrix1, int[][] matrix2) {
-        if (matrix1 == null || matrix2 == null || matrix1.length != matrix2.length) {
-            return new int[0][0];
-        }
-
-        int rows = matrix1.length;
-        int[][] result = new int[rows][];
-
+        int rows1 = matrix1 == null ? 0 : matrix1.length;
+        int rows2 = matrix2 == null ? 0 : matrix2.length;
+        int rows = Math.max(rows1, rows2);
+        int[][] res = new int[rows][];
         for (int i = 0; i < rows; i++) {
-            if (matrix1[i] == null || matrix2[i] == null ||
-                    matrix1[i].length != matrix2[i].length) {
-                return new int[0][0];
-            }
-
-            result[i] = new int[matrix1[i].length];
-            for (int j = 0; j < matrix1[i].length; j++) {
-                result[i][j] = matrix1[i][j] + matrix2[i][j];
+            int[] r1 = (matrix1 != null && i < matrix1.length) ? matrix1[i] : null;
+            int[] r2 = (matrix2 != null && i < matrix2.length) ? matrix2[i] : null;
+            int len1 = r1 == null ? 0 : r1.length;
+            int len2 = r2 == null ? 0 : r2.length;
+            int len = Math.max(len1, len2);
+            res[i] = new int[len];
+            for (int j = 0; j < len; j++) {
+                int v1 = j < len1 ? r1[j] : 0;
+                int v2 = j < len2 ? r2[j] : 0;
+                res[i][j] = v1 + v2;
             }
         }
-
-        return result;
+        return res;
     }
 
     public void transpose(int[][] matrix) {
-        if (matrix == null) return;
-
+        if (!isSquare(matrix)) return;
         int n = matrix.length;
-
-        // Проверяем квадратность
-        for (int i = 0; i < n; i++) {
-            if (matrix[i] == null || matrix[i].length != n) return;
-        }
-
-        // Транспонируем (только элементы выше главной диагонали)
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
-                int temp = matrix[i][j];
+                int tmp = matrix[i][j];
                 matrix[i][j] = matrix[j][i];
-                matrix[j][i] = temp;
+                matrix[j][i] = tmp;
             }
         }
     }
 
     public void interchange(int[][] matrix) {
-        if (matrix == null || matrix.length == 0 || matrix.length % 2 != 0) {
-            return;
-        }
-
-        for (int i = 0; i < matrix.length; i += 2) {
-            // Меняем местами строку i (четную) и строку i+1 (нечетную)
-            int[] temp = matrix[i];
+        if (matrix == null) return;
+        int n = matrix.length;
+        for (int i = 0; i + 1 < n; i += 2) {
+            int[] tmp = matrix[i];
             matrix[i] = matrix[i + 1];
-            matrix[i + 1] = temp;
+            matrix[i + 1] = tmp;
         }
     }
 
     public int[] toLinearByRow(int[][] matrix) {
         if (matrix == null) return new int[0];
-
-        // Подсчет общего количества элементов
-        int count = 0;
+        int total = 0;
+        for (int[] row : matrix) if (row != null) total += row.length;
+        int[] res = new int[total];
+        int idx = 0;
         for (int[] row : matrix) {
-            if (row != null) count += row.length;
+            if (row == null) continue;
+            for (int v : row) res[idx++] = v;
         }
-
-        // Создание и заполнение результирующего массива
-        int[] result = new int[count];
-        int index = 0;
-
-        for (int[] row : matrix) {
-            if (row != null) {
-                for (int num : row) {
-                    result[index++] = num;
-                }
-            }
-        }
-
-        return result;
+        return res;
     }
 
     public int[] toLinearByColumn(int[][] matrix) {
-        if (matrix == null || matrix.length == 0) return new int[0];
-
+        if (!isSquare(matrix)) return new int[0];
         int n = matrix.length;
-        for (int i = 0; i < n; i++) {
-            if (matrix[i] == null || matrix[i].length != n) return new int[0];
-        }
-
-        int[] result = new int[n * n];
-        int index = 0;
-
+        int[] res = new int[n * n];
+        int idx = 0;
         for (int j = 0; j < n; j++) {
             for (int i = 0; i < n; i++) {
-                result[index++] = matrix[i][j];
+                res[idx++] = matrix[i][j];
             }
         }
-
-        return result;
+        return res;
     }
 
     public int[] toLinearByRowUpperTriangle(int[][] matrix) {
-        if (matrix == null || matrix.length == 0) return new int[0];
-
+        if (!isSquare(matrix)) return new int[0];
         int n = matrix.length;
-        for (int i = 0; i < n; i++) {
-            if (matrix[i] == null || matrix[i].length != n) return new int[0];
-        }
-
-        int[] result = new int[n * (n + 1) / 2];
+        int total = n * (n + 1) / 2;
+        int[] res = new int[total];
         int idx = 0;
-
         for (int i = 0; i < n; i++) {
             for (int j = i; j < n; j++) {
-                result[idx++] = matrix[i][j];
+                res[idx++] = matrix[i][j];
             }
         }
-
-        return result;
+        return res;
     }
 
     public int sumUntilNotFoundInRow(int[][] matrix, int barrier) {
         if (matrix == null) return 0;
-
-        int total = 0;
+        int sum = 0;
         for (int[] row : matrix) {
-            if (row != null) {
-                for (int num : row) {
-                    if (num == barrier) break;
-                    total += num;
-                }
+            if (row == null) continue;
+            for (int v : row) {
+                if (v == barrier) break;
+                sum += v;
             }
         }
-        return total;
+        return sum;
     }
 
     public int sumUntilNotFound(int[][] matrix, int barrier) {
         if (matrix == null) return 0;
-
-        int total = 0;
+        int sum = 0;
         for (int[] row : matrix) {
-            if (row != null) {
-                for (int num : row) {
-                    if (num == barrier) return total;
-                    total += num;
-                }
+            if (row == null) continue;
+            for (int v : row) {
+                if (v == barrier) return sum;
+                sum += v;
             }
         }
-        return total;
+        return sum;
     }
 }

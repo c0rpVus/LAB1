@@ -1,21 +1,19 @@
 package academy.tochkavhoda.figures.v1;
 
 public class CircleFactory {
-    private static int circleCount = 0;
+    private static int count = 0;
 
     public static Circle createCircle(Point center, int radius) {
-        if (radius <= 0) {
-            throw new IllegalArgumentException("Radius must be positive");
-        }
-        circleCount++;
+        count++;
         return new Circle(center, radius);
     }
 
     public static int getCircleCount() {
-        return circleCount;
+        return count;
     }
 
     public static void reset() {
-        circleCount = 0;
+        count = 0;
     }
 }
+

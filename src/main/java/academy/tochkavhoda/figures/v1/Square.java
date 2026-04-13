@@ -7,32 +7,23 @@ public class Square {
     private int size;
 
     public Square(Point leftTop, int size) {
-        if (size <= 0) {
-            throw new IllegalArgumentException("Size must be positive");
-        }
         this.topLeft = new Point(leftTop.getX(), leftTop.getY());
         this.size = size;
     }
 
     public Square(int xLeft, int yTop, int size) {
-        if (size <= 0) {
-            throw new IllegalArgumentException("Size must be positive");
-        }
         this.topLeft = new Point(xLeft, yTop);
         this.size = size;
     }
 
     public Square(int size) {
-        if (size <= 0) {
-            throw new IllegalArgumentException("Size must be positive");
-        }
+        // левый нижний угол в (0,0) => topLeft = (0, -size)
         this.topLeft = new Point(0, -size);
         this.size = size;
     }
 
     public Square() {
-        this.topLeft = new Point(0, -1);
-        this.size = 1;
+        this(1);
     }
 
     public Point getTopLeft() {
@@ -64,26 +55,20 @@ public class Square {
     }
 
     public void resize(double ratio) {
-        if (ratio <= 0) {
-            throw new IllegalArgumentException("Ratio must be positive");
-        }
-        this.size = (int)(size * ratio);
-        if (this.size <= 0) {
-            this.size = 1;
-        }
+        this.size = (int) (this.size * ratio);
     }
 
     public double getArea() {
-        return size * size;
+        return (double) size * size;
     }
 
     public double getPerimeter() {
-        return 4 * size;
+        return 4.0 * size;
     }
 
     public boolean isInside(int x, int y) {
-        return x >= topLeft.getX() && x <= topLeft.getX() + size &&
-                y >= topLeft.getY() && y <= topLeft.getY() + size;
+        return x >= topLeft.getX() && x <= topLeft.getX() + size
+            && y >= topLeft.getY() && y <= topLeft.getY() + size;
     }
 
     public boolean isInside(Point point) {
@@ -91,15 +76,24 @@ public class Square {
     }
 
     public boolean isIntersects(Square square) {
-        return !(this.getBottomRight().getX() < square.getTopLeft().getX() ||
-                this.getTopLeft().getX() > square.getBottomRight().getX() ||
-                this.getBottomRight().getY() < square.getTopLeft().getY() ||
-                this.getTopLeft().getY() > square.getBottomRight().getY());
+        int thisLeft = topLeft.getX();
+        int thisRight = topLeft.getX() + size;
+        int thisTop = topLeft.getY();
+        int thisBottom = topLeft.getY() + size;
+
+        int otherLeft = square.topLeft.getX();
+        int otherRight = square.topLeft.getX() + square.size;
+        int otherTop = square.topLeft.getY();
+        int otherBottom = square.topLeft.getY() + square.size;
+
+        return !(thisRight < otherLeft || otherRight < thisLeft || thisBottom < otherTop || otherBottom < thisTop);
     }
 
     public boolean isInside(Square square) {
-        return this.isInside(square.getTopLeft()) &&
-                this.isInside(square.getBottomRight());
+        return square.topLeft.getX() >= this.topLeft.getX()
+            && square.topLeft.getY() >= this.topLeft.getY()
+            && square.topLeft.getX() + square.size <= this.topLeft.getX() + this.size
+            && square.topLeft.getY() + square.size <= this.topLeft.getY() + this.size;
     }
 
     @Override
@@ -107,19 +101,13 @@ public class Square {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Square square = (Square) o;
-        return size == square.size && Objects.equals(topLeft, square.topLeft);
+        return size == square.size
+                && topLeft.getX() == square.topLeft.getX()
+                && topLeft.getY() == square.topLeft.getY();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(topLeft, size);
-    }
-
-    @Override
-    public String toString() {
-        return "Square{" +
-                "topLeft=" + topLeft +
-                ", size=" + size +
-                '}';
+        return Objects.hash(topLeft.getX(), topLeft.getY(), size);
     }
 }

@@ -6,11 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestZeroSteps4 {
     private static final double DOUBLE_EPS = 1E-6;
-    private ZeroSteps4 zeroSteps4 = new ZeroSteps4();
 
     @Test
     public void testMax() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix1 = {{5, 1, 22}, {3, -2}};
         assertEquals(22, zeroSteps4.max(matrix1));
         int[][] matrix2 = {{-5, -1}, {-22}, {-3, -2}};
@@ -21,7 +20,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testMin() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix1 = {{5, 1, 22}, {3, -2}};
         assertEquals(-2, zeroSteps4.min(matrix1));
         int[][] matrix2 = {{-5, -1}, {-22}, {-3, -2}};
@@ -32,7 +31,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testFindValue() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix = {{1, 2}, {3}, {0, 8}};
         assertTrue(zeroSteps4.find(matrix, 2));
         assertTrue(zeroSteps4.find(matrix, 0));
@@ -41,7 +40,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testAllRowsSortedDescendant() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix1 = {{3, 2, 1}, {5, 4, 3}, {8, 7, 6}};
         assertTrue(zeroSteps4.isSortedDescendant(matrix1));
         int[][] matrix2 = {{3, 2, 2}, {5, 4, 3}, {8, 7, 6}};
@@ -56,7 +55,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testHasNoZeroRows() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix1 = {{3, 2, 0}, {5, 4, 3}, {8, 0, 6}};
         assertEquals(1, zeroSteps4.hasNoZeroRows(matrix1));
         int[][] matrix2 = {{3, 2, 2}, {5, 4, 3}, {8, 7, 6}};
@@ -67,7 +66,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testHasFullZeroRows() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix1 = {{3, 2, 0}, {5, 4, 3}, {8, 0, 6}};
         assertFalse(zeroSteps4.hasFullZeroRow(matrix1));
         int[][] matrix2 = {{3, 2, 2}, {0, 0, 0}, {8, 7, 6}};
@@ -80,7 +79,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testIsSymmetric() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix1 = {{3, 2, 0}, {5, 4, 3}, {8, 0, 6}};
         assertFalse(zeroSteps4.isSymmetric(matrix1));
         int[][] matrix2 = {{3, 2, 4}, {2, 0, 5}, {4, 5, 6}};
@@ -91,7 +90,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testMainDiagonalMax() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix1 = {{1, 2, 3}, {3, 4, 5}, {6, 7, 8}};
         assertEquals(8, zeroSteps4.mainDiagonalMax(matrix1));
         int[][] matrix2 = {{100, 2, 3}, {3, 4, 5}, {6, 7, 800}};
@@ -104,7 +103,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testMainDiagonalPositivesSum() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix1 = {{1, 2, 3}, {3, 4, 5}, {6, 7, 8}};
         assertEquals(13, zeroSteps4.mainDiagonalPositivesSum(matrix1));
         int[][] matrix2 = {{100, 2, 3}, {3, -4, 5}, {6, 7, -8}};
@@ -117,7 +116,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testSecondaryDiagonalMax() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix1 = {{1, 2, 3}, {3, 4, 5}, {6, 7, 8}};
         assertEquals(6, zeroSteps4.secondaryDiagonalMax(matrix1));
         int[][] matrix2 = {{100, 2, 3}, {3, 4, 5}, {-6, 7, 800}};
@@ -130,7 +129,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testSecondaryDiagonalPositivesSum() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix1 = {{1, 2, 3}, {3, 4, 5}, {6, 7, 8}};
         assertEquals(13, zeroSteps4.secondaryDiagonalPositivesSum(matrix1));
         int[][] matrix2 = {{100, 2, 3}, {3, -4, 5}, {6, 7, -8}};
@@ -143,7 +142,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testSum() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix1 = {{1, 2, 3}, {3, 4}, {6, 7, 8}, {9, 10, 11, 12}, {}};
         int[][] matrix2 = {{100, 2, 3}, {3, -5}, {6, 7, -8}, {0, 2, 5, -3}, {}};
         int[][] result = {{101, 4, 6}, {6, -1}, {12, 14, 0}, {9, 12, 16, 9}, {}};
@@ -155,7 +154,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testTranspose() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         int[][] result = {{1, 4, 7}, {2, 5, 8}, {3, 6, 9}};
         zeroSteps4.transpose(matrix);
@@ -166,7 +165,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testInterchange() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix = {{1, 2, 3}, {4, 6}, {7, 8, 9}, {}};
         int[][] result = {{4, 6}, {1, 2, 3}, {}, {7, 8, 9}};
         zeroSteps4.interchange(matrix);
@@ -177,7 +176,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testToLinearByRow() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix = {{10}, {1, 12, 3}, {4, 26}, {}, {7, 8, 49},};
         int[] result = {10, 1, 12, 3, 4, 26, 7, 8, 49};
         int[] scan = zeroSteps4.toLinearByRow(matrix);
@@ -186,7 +185,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testToLinearByColumn() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix = {{1, 12, 3}, {4, 26, 17}, {7, 8, 49},};
         int[] result = {1, 4, 7, 12, 26, 8, 3, 17,49};
         int[] scan = zeroSteps4.toLinearByColumn(matrix);
@@ -195,7 +194,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testToLinearByRowUpperTriangle() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix = {{1, 12, 3}, {4, 26, 17}, {7, 8, 49},};
         int[] result = {1, 12,3, 26, 17, 49 };
         int[] scan = zeroSteps4.toLinearByRowUpperTriangle(matrix);
@@ -204,7 +203,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testSumUntilNotFoundInRow() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix = {{7}, {1, 12, 3}, {}, {4, 3, 17}, {7, 8, 9},};
         assertEquals(48,zeroSteps4.sumUntilNotFoundInRow(matrix, 3));
         assertEquals(62,zeroSteps4.sumUntilNotFoundInRow(matrix, 9));
@@ -213,7 +212,7 @@ public class TestZeroSteps4 {
 
     @Test
     public void testSumUntilNotFound() {
-        
+        ZeroSteps4 zeroSteps4 = new ZeroSteps4();
         int[][] matrix = {{7}, {1, 12, 3}, {}, {4, 26, 17}, {7, 8, 9},};
         assertEquals(94,zeroSteps4.sumUntilNotFound(matrix, 100));
         assertEquals(8,zeroSteps4.sumUntilNotFound(matrix, 12));

@@ -17,13 +17,13 @@ public class Rectangle {
     }
 
     public Rectangle(int length, int width) {
+        // левый нижний угол в (0,0) => topLeft = (0, -width), bottomRight = (length, 0)
         this.topLeft = new Point(0, -width);
         this.bottomRight = new Point(length, 0);
     }
 
     public Rectangle() {
-        this.topLeft = new Point(0, -1);
-        this.bottomRight = new Point(1, 0);
+        this(1, 1);
     }
 
     public Point getTopLeft() {
@@ -35,7 +35,10 @@ public class Rectangle {
     }
 
     public void setTopLeft(Point topLeft) {
+        int length = getLength();
+        int width = getWidth();
         this.topLeft = new Point(topLeft.getX(), topLeft.getY());
+        this.bottomRight = new Point(topLeft.getX() + length, topLeft.getY() + width);
     }
 
     public void setBottomRight(Point bottomRight) {
@@ -67,36 +70,28 @@ public class Rectangle {
     }
 
     public void resize(double ratio) {
-        int newLength = (int)(getLength() * ratio);
-        int newWidth = (int)(getWidth() * ratio);
-
-        this.bottomRight = new Point(
-                topLeft.getX() + newLength,
-                topLeft.getY() + newWidth
-        );
+        int newLength = (int) (getLength() * ratio);
+        int newWidth = (int) (getWidth() * ratio);
+        this.bottomRight = new Point(topLeft.getX() + newLength, topLeft.getY() + newWidth);
     }
 
     public void stretch(double xRatio, double yRatio) {
-        int newLength = (int)(getLength() * xRatio);
-        int newWidth = (int)(getWidth() * yRatio);
-
-        this.bottomRight = new Point(
-                topLeft.getX() + newLength,
-                topLeft.getY() + newWidth
-        );
+        int newLength = (int) (getLength() * xRatio);
+        int newWidth = (int) (getWidth() * yRatio);
+        this.bottomRight = new Point(topLeft.getX() + newLength, topLeft.getY() + newWidth);
     }
 
     public double getArea() {
-        return getLength() * getWidth();
+        return (double) getLength() * getWidth();
     }
 
     public double getPerimeter() {
-        return 2 * (getLength() + getWidth());
+        return 2.0 * (getLength() + getWidth());
     }
 
     public boolean isInside(int x, int y) {
-        return x >= topLeft.getX() && x <= bottomRight.getX() &&
-                y >= topLeft.getY() && y <= bottomRight.getY();
+        return x >= topLeft.getX() && x <= bottomRight.getX()
+            && y >= topLeft.getY() && y <= bottomRight.getY();
     }
 
     public boolean isInside(Point point) {
@@ -104,36 +99,34 @@ public class Rectangle {
     }
 
     public boolean isIntersects(Rectangle rectangle) {
-        return !(bottomRight.getX() < rectangle.topLeft.getX() ||
-                topLeft.getX() > rectangle.bottomRight.getX() ||
-                bottomRight.getY() < rectangle.topLeft.getY() ||
-                topLeft.getY() > rectangle.bottomRight.getY());
+        // проверяем пересечение по осям (включая границу)
+        return !(this.bottomRight.getX() < rectangle.topLeft.getX()
+              || rectangle.bottomRight.getX() < this.topLeft.getX()
+              || this.bottomRight.getY() < rectangle.topLeft.getY()
+              || rectangle.bottomRight.getY() < this.topLeft.getY());
     }
 
     public boolean isInside(Rectangle rectangle) {
-        return this.isInside(rectangle.getTopLeft()) &&
-                this.isInside(rectangle.getBottomRight());
+        return rectangle.topLeft.getX() >= this.topLeft.getX()
+            && rectangle.bottomRight.getX() <= this.bottomRight.getX()
+            && rectangle.topLeft.getY() >= this.topLeft.getY()
+            && rectangle.bottomRight.getY() <= this.bottomRight.getY();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Rectangle rectangle = (Rectangle) o;
-        return Objects.equals(topLeft, rectangle.topLeft) &&
-                Objects.equals(bottomRight, rectangle.bottomRight);
+        Rectangle that = (Rectangle) o;
+        return topLeft.getX() == that.topLeft.getX()
+                && topLeft.getY() == that.topLeft.getY()
+                && bottomRight.getX() == that.bottomRight.getX()
+                && bottomRight.getY() == that.bottomRight.getY();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(topLeft, bottomRight);
-    }
-
-    @Override
-    public String toString() {
-        return "Rectangle{" +
-                "topLeft=" + topLeft +
-                ", bottomRight=" + bottomRight +
-                '}';
+        return Objects.hash(topLeft.getX(), topLeft.getY(),
+                            bottomRight.getX(), bottomRight.getY());
     }
 }

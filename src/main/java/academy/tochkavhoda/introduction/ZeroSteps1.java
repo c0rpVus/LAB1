@@ -11,21 +11,11 @@ public class ZeroSteps1 {
     }
 
     public int div(int x, int y) {
-        if (y != 0){
-            return x / y;
-        }
-        else {
-            throw new ArithmeticException();
-        }
+        return x / y;
     }
 
     public int mod(int x, int y) {
-        if (y != 0){
-            return x % y;
-        }
-        else {
-            throw new ArithmeticException();
-        }
+        return x % y;
     }
 
     public boolean isEqual(int x, int y) {
@@ -36,38 +26,32 @@ public class ZeroSteps1 {
         return x > y;
     }
 
-    public double calculateTriangleSquare(int x, int y) {
-        return (x * y) / 2.0;
+    public double calculateTriangleSquare(int side1, int side2) {
+        return (side1 * side2) / 2.0;
     }
 
-    public double calculateTrianglePerimeter(int x, int y) {
-        // Находим гипотенузу по теореме Пифагора
-        double hypotenuse = Math.sqrt(x * x + y * y);
-
-        // Периметр = сумма всех сторон
-        return x + y + hypotenuse;
+    public double calculateTrianglePerimeter(int side1, int side2) {
+        double hypotenuse = Math.sqrt((double) side1 * side1 + (double) side2 * side2);
+        return side1 + side2 + hypotenuse;
     }
 
     public int reverseNumber(int number) {
-        // Извлекаем отдельные цифры числа
-        int hundreds = number / 100;        // сотни
-        int tens = (number / 10) % 10;      // десятки
-        int units = number % 10;            // единицы
-
-        // Формируем обратное число
-        return units * 100 + tens * 10 + hundreds;
+        int sign = number < 0 ? -1 : 1;
+        number = Math.abs(number);
+        int hundreds = number / 100;
+        int tens = (number / 10) % 10;
+        int ones = number % 10;
+        return sign * (ones * 100 + tens * 10 + hundreds);
     }
 
     public long calculate15Degree(int number) {
-        long x = number;
-
-        long x2 = x * x;           // x^2 (1 умножение)
-        long x3 = x2 * x;          // x^3 (2 умножения)
-        long x6 = x3 * x3;         // x^6 (3 умножения)
-        long x12 = x6 * x6;        // x^12 (4 умножения)
-        long x15 = x12 * x3;       // x^15 (5 умножений)
-
-        return x15;
+        long n = number;
+        long n2 = n * n;           // 1 multiplication
+        long n3 = n2 * n;          // 2
+        long n5 = n2 * n3;         // 3
+        long n10 = n5 * n5;        // 4
+        long n15 = n10 * n5;       // 5
+        return n15;
     }
 
     public boolean isInsideRect(int xLeft, int yTop, int xRight, int yBottom, int x, int y) {
@@ -75,25 +59,21 @@ public class ZeroSteps1 {
     }
 
     public double sqrtAbs(int number) {
-        return Math.sqrt(Math.abs(number));
+        return Math.sqrt(Math.abs((double) number));
     }
 
     public boolean isTriangleExist(int side1, int side2, int side3) {
-        // Проверяем неравенство треугольника для всех трех сторон
-        return (side1 + side2 > side3) &&
-                (side1 + side3 > side2) &&
-                (side2 + side3 > side1);
+        return side1 + side2 > side3 && side1 + side3 > side2 && side2 + side3 > side1;
     }
 
     public int getDigitsProduction(int number) {
-        // Извлекаем отдельные цифры числа
-        int digit1 = number / 1000;          // тысячи (первая цифра)
-        int digit2 = (number / 100) % 10;    // сотни (вторая цифра)
-        int digit3 = (number / 10) % 10;     // десятки (третья цифра)
-        int digit4 = number % 10;            // единицы (четвертая цифра)
-
-        // Возвращаем произведение цифр
-        return digit1 * digit2 * digit3 * digit4;
+        int n = Math.abs(number);
+        int prod = 1;
+        for (int i = 0; i < 4; i++) {
+            prod *= n % 10;
+            n /= 10;
+        }
+        return prod;
     }
 
     public boolean isCircleInsideSquare(int radius, int side) {
